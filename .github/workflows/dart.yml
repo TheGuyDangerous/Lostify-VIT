@@ -28,6 +28,14 @@ jobs:
         with:
           channel: "stable"
 
+      - name: Set Up Firebase
+        run: |
+          echo "$FIREBASE_CREDENTIALS" > $HOME/firebase-credentials.json
+          npx firebase use --add fir-chat-9f714
+          npx firebase deploy --token "$FIREBASE_CREDENTIALS" --only functions,hosting
+        env:
+          FIREBASE_CREDENTIALS: ${{ secrets.FIREBASE_CREDENTIALS }}
+
       - name: Get Flutter dependencies
         run: flutter pub get
 
